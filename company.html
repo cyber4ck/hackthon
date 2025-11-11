@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect - Company Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==================== ROOT VARIABLES ==================== */
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --primary-light: #38bdf8;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --gray: #64748b;
+            --gray-light: #cbd5e1;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==================== GLOBAL RESET ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== UTILITY CLASSES ==================== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-primary { background: #dbeafe; color: var(--primary); }
+        .badge-success { background: #d1fae5; color: var(--success); }
+        .badge-warning { background: #fef3c7; color: var(--warning); }
+        .badge-danger { background: #fee2e2; color: var(--danger); }
+        .badge-gray { background: #f1f5f9; color: var(--gray); }
+        .badge-info { background: #dbeafe; color: var(--info); }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ==================== HEADER / NAV ==================== */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+            background: var(--bg);
+        }
+
+        .profile-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg);
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        .company-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* ==================== SCREENS ==================== */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================== AUTH SCREEN ==================== */
+        .auth-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 2rem 1rem;
+        }
+
+        .auth-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-xl);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-header p {
+            color: var(--gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: var(--gray-light);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ==================== PENDING APPROVAL ==================== */
+        .pending-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .pending-card {
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .pending-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* ==================== DASHBOARD ==================== */
+        .dashboard {
+            padding: 2rem 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: var(--gray);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card.success {
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+
+        .stat-card.warning {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+        }
+
+        .stat-card.info {
+            background: linear-gradient(135deg, var(--info), #2563eb);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .stat-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-info p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* ==================== POSTS GRID ==================== */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .post-card {
+            position: relative;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .post-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid var(--gray-light);
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* ==================== APPLICANTS TABLE ==================== */
+        .filters-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .applicants-table {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 50px 2fr 1.5fr 1fr 1fr 1fr 1.5fr;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .applicant-row {
+            display: grid;
+            grid-template-columns: 50px 2fr 1.5fr 1fr 1fr 1fr 1.5fr;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-top: 1px solid var(--gray-light);
+            align-items: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .applicant-row:hover {
+            background: var(--bg);
+        }
+
+        .applicant-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .applicant-info h4 {
+            margin-bottom: 0.25rem;
+            color: var(--dark);
+        }
+
+        .applicant-info p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .match-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .match-score.medium {
+            color: var(--warning);
+        }
+
+        .match-score.low {
+            color: var(--danger);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* ==================== MODAL ==================== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            padding: 1rem;
+            overflow-y: auto;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-content.large {
+            max-width: 900px;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* ==================== PROFILE DETAIL ==================== */
+        .profile-header-modal {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .profile-info-modal {
+            flex: 1;
+        }
+
+        .profile-info-modal h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info-modal .meta-item {
+            margin-right: 1rem;
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .info-item {
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+        }
+
+        .info-label {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .portfolio-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .portfolio-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .portfolio-link:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ==================== TIMELINE ==================== */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-light);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.25rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 3px solid var(--gray-light);
+        }
+
+        .timeline-item.active::before {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .timeline-item h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-item p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* ==================== SUCCESS ANIMATION ==================== */
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 3rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1024px) {
+            .table-header, .applicant-row {
+                grid-template-columns: 50px 2fr 1fr 1fr 1.5fr;
+            }
+            
+            .table-header span:nth-child(4),
+            .table-header span:nth-child(6),
+            .applicant-row > div:nth-child(4),
+            .applicant-row > div:nth-child(6) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .applicants-table {
+                overflow-x: auto;
+            }
+
+            .table-header, .applicant-row {
+                min-width: 700px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .profile-header-modal {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-avatar-large {
+                margin: 0 auto;
+            }
+        }
+
+        /* ==================== EMPTY STATE ==================== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ==================== TAGS INPUT ==================== */
+        .tags-input-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius-sm);
+            min-height: 50px;
+        }
+
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        .tag-remove:hover {
+            opacity: 1;
+        }
+
+        .tag-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            min-width: 150px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        /* ==================== NOTIFICATION DOT ==================== */
+        .notification-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: var(--danger);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="header" id="mainHeader" style="display: none;">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">Campus Connect</div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active" data-screen="dashboard">Dashboard</a>
+                    <a href="#" class="nav-link" data-screen="posts">My Posts</a>
+                    <a href="#" class="nav-link" data-screen="applicants">Applicants</a>
+                    <a href="#" class="nav-link" data-screen="messages">Messages</a>
+                </div>
+                <div class="profile-badge">
+                    <div class="company-avatar">TC</div>
+                    <span>TechCorp</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== REGISTER SCREEN ==================== -->
+    <div class="screen active" id="registerScreen">
+        <div class="auth-screen">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1>Company Registration</h1>
+                    <p>Join Campus Connect to hire talented students</p>
+                </div>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="companyName">Company Name *</label>
+                        <input type="text" id="companyName" class="form-control" value="TechCorp Solutions" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyEmail">Company Email *</label>
+                        <input type="email" id="companyEmail" class="form-control" value="hr@techcorp.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="website">Website</label>
+                        <input type="url" id="website" class="form-control" value="https://techcorp.com" placeholder="https://yourcompany.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">Industry *</label>
+                        <select id="industry" class="form-control" required>
+                            <option value="">Select Industry</option>
+                            <option value="IT" selected>Information Technology</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Education">Education</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Company Description</label>
+                        <textarea id="description" class="form-control" placeholder="Tell students about your company...">Leading software development company specializing in web and mobile applications.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPerson">Contact Person Name *</label>
+                        <input type="text" id="contactPerson" class="form-control" value="Rajesh Sharma" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone">Contact Phone *</label>
+                        <input type="tel" id="contactPhone" class="form-control" value="+91-9876543210" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" class="form-control" value="demo123" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Submit Registration</button>
+                    <p style="text-align: center; margin-top: 1rem; color: var(--gray); font-size: 0.9rem;">
+                        Already registered? <a href="#" onclick="showLogin()" style="color: var(--primary);">Login here</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== LOGIN SCREEN ==================== -->
+    <div class="screen" id="loginScreen">
+        <div class="auth-screen">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1>Company Login</h1>
+                    <p>Access your recruitment dashboard</p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" class="form-control" value="hr@techcorp.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" value="demo123" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                    <p style="text-align: center; margin-top: 1rem; color: var(--gray); font-size: 0.9rem;">
+                        New company? <a href="#" onclick="showRegister()" style="color: var(--primary);">Register here</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PENDING APPROVAL SCREEN ==================== -->
+    <div class="screen" id="pendingScreen">
+        <div class="pending-screen">
+            <div class="card pending-card">
+                <div class="pending-icon">⏳</div>
+                <h1>Pending Admin Approval</h1>
+                <p style="color: var(--gray); margin: 1rem 0 2rem;">Your registration has been submitted successfully. Our admin team is reviewing your application. You'll receive an email once your account is activated.</p>
+                <div style="padding: 1.5rem; background: var(--bg); border-radius: var(--radius); text-align: left;">
+                    <h3 style="margin-bottom: 1rem;">What happens next?</h3>
+                    <div class="timeline">
+                        <div class="timeline-item active">
+                            <h4>✓ Registration Submitted</h4>
+                            <p>Your application is in queue</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Admin Review</h4>
+                            <p>Usually takes 24-48 hours</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Account Activation</h4>
+                            <p>You'll receive confirmation email</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Start Posting</h4>
+                            <p>Begin hiring talented students</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="skipToApproved()" style="margin-top: 2rem;">
+                    Skip to Approved (Demo)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DASHBOARD SCREEN ==================== -->
+    <div class="screen" id="dashboardScreen">
+        <div class="dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Welcome back, TechCorp! 👋</h1>
+                    <p>Manage your internship postings and track applicants</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <h3>4</h3>
+                            <p>Active Posts</p>
+                        </div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3>28</h3>
+                            <p>Total Applicants</p>
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">🔔</div>
+                        <div class="stat-info">
+                            <h3>12</h3>
+                            <p>New Applications</p>
+                        </div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <h3>5</h3>
+                            <p>Hired</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2 class="section-title">📊 Recent Activity</h2>
+                    <button class="btn btn-primary" onclick="showCreatePost()">
+                        + Create New Post
+                    </button>
+                </div>
+
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Latest Applications</h3>
+                    <div id="recentApplications">
+                        <!-- Will be populated by JS -->
+                    </div>
+                </div>
+
+                <h2 class="section-title">🔥 Your Active Posts</h2>
+                <div class="posts-grid" id="postsGrid">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MY POSTS SCREEN ==================== -->
+    <div class="screen" id="postsScreen">
+        <div class="dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>My Posts</h1>
+                    <p>Manage all your internship and project postings</p>
+                </div>
+
+                <div class="section-header">
+                    <div class="filters-bar" style="flex: 1;">
+                        <select class="form-control filter-select" id="postStatusFilter">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending Approval</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="showCreatePost()">
+                        + Create New Post
+                    </button>
+                </div>
+
+                <div class="posts-grid" id="allPostsGrid">
+                    <!-- All posts will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== APPLICANTS SCREEN ==================== -->
+    <div class="screen" id="applicantsScreen">
+        <div class="dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Applicants</h1>
+                    <p>Review and manage student applications</p>
+                </div>
+
+                <div class="filters-bar">
+                    <select class="form-control filter-select" id="postFilter" onchange="filterApplicants()">
+                        <option value="all">All Posts</option>
+                    </select>
+                    <select class="form-control filter-select" id="statusFilter" onchange="filterApplicants()">
+                        <option value="all">All Status</option>
+                        <option value="applied">Applied</option>
+                        <option value="shortlisted">Shortlisted</option>
+                        <option value="interview">Interview Scheduled</option>
+                        <option value="offered">Offered</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    <select class="form-control filter-select" id="deptFilter" onchange="filterApplicants()">
+                        <option value="all">All Departments</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Mechanical">Mechanical</option>
+                    </select>
+                    <input type="text" class="form-control filter-select" id="searchApplicant" placeholder="Search by name..." oninput="filterApplicants()">
+                </div>
+
+                <div class="applicants-table">
+                    <div class="table-header">
+                        <span></span>
+                        <span>Name</span>
+                        <span>Position</span>
+                        <span>Department</span>
+                        <span>GPA</span>
+                        <span>Match</span>
+                        <span>Actions</span>
+                    </div>
+                    <div id="applicantsTableBody">
+                        <!-- Applicants will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MESSAGES SCREEN ==================== -->
+    <div class="screen" id="messagesScreen">
+        <div class="dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Messages</h1>
+                    <p>Communicate with applicants</p>
+                </div>
+
+                <div class="empty-state card">
+                    <div class="empty-icon">💬</div>
+                    <h3>No Messages Yet</h3>
+                    <p>Messages from applicants will appear here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CREATE POST MODAL ==================== -->
+    <div class="modal" id="createPostModal">
+        <div class="modal-content large">
+            <button class="modal-close" onclick="closeModal('createPostModal')">×</button>
+            <div class="modal-header">
+                <h2>Create New Opportunity</h2>
+                <p style="color: var(--gray);">Fill in the details to post a new internship or project</p>
+            </div>
+            <form id="createPostForm">
+                <div class="form-group">
+                    <label for="postTitle">Position Title *</label>
+                    <input type="text" id="postTitle" class="form-control" placeholder="e.g., Full Stack Developer Intern" required>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="postType">Type *</label>
+                        <select id="postType" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option value="internship">Internship</option>
+                            <option value="project">Academic Project</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="postLocation">Location *</label>
+                        <select id="postLocation" class="form-control" required>
+                            <option value="">Select Location</option>
+                            <option value="Remote">Remote</option>
+                            <option value="On-site">On-site</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="postDuration">Duration *</label>
+                        <input type="text" id="postDuration" class="form-control" placeholder="e.g., 3 months" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postStipend">Stipend *</label>
+                        <input type="text" id="postStipend" class="form-control" placeholder="e.g., ₹25,000/month" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="postDescription">Job Description *</label>
+                    <textarea id="postDescription" class="form-control" placeholder="Describe the role, responsibilities, and what the student will learn..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Required Skills * (Press Enter to add)</label>
+                    <div class="tags-input-wrapper" id="skillsTagsWrapper">
+                        <input type="text" class="tag-input" id="skillInput" placeholder="Type skill and press Enter...">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="postRequirements">Requirements *</label>
+                    <textarea id="postRequirements" class="form-control" placeholder="List the requirements and qualifications..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="postOpenings">Number of Openings *</label>
+                    <input type="number" id="postOpenings" class="form-control" value="1" min="1" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('createPostModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit for Approval</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== APPLICANT PROFILE MODAL ==================== -->
+    <div class="modal" id="applicantProfileModal">
+        <div class="modal-content large">
+            <button class="modal-close" onclick="closeModal('applicantProfileModal')">×</button>
+            <div id="applicantProfileContent">
+                <!-- Profile content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SCHEDULE INTERVIEW MODAL ==================== -->
+    <div class="modal" id="scheduleInterviewModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('scheduleInterviewModal')">×</button>
+            <div class="modal-header">
+                <h2>Schedule Interview</h2>
+            </div>
+            <form id="scheduleInterviewForm">
+                <div class="form-group">
+                    <label for="interviewDate">Interview Date *</label>
+                    <input type="date" id="interviewDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="interviewTime">Interview Time *</label>
+                    <input type="time" id="interviewTime" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="interviewMode">Interview Mode *</label>
+                    <select id="interviewMode" class="form-control" required>
+                        <option value="">Select Mode</option>
+                        <option value="Online">Online (Video Call)</option>
+                        <option value="Phone">Phone Call</option>
+                        <option value="In-person">In-person</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="interviewLink">Meeting Link (if online)</label>
+                    <input type="url" id="interviewLink" class="form-control" placeholder="https://meet.google.com/...">
+                </div>
+                <div class="form-group">
+                    <label for="interviewNotes">Additional Notes</label>
+                    <textarea id="interviewNotes" class="form-control" placeholder="Any additional information for the candidate..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('scheduleInterviewModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Schedule & Notify</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MAKE OFFER MODAL ==================== -->
+    <div class="modal" id="makeOfferModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('makeOfferModal')">×</button>
+            <div class="modal-header">
+                <h2>Make an Offer</h2>
+            </div>
+            <form id="makeOfferForm">
+                <div class="form-group">
+                    <label for="offerStipend">Stipend Offered *</label>
+                    <input type="text" id="offerStipend" class="form-control" placeholder="e.g., ₹25,000/month" required>
+                </div>
+                <div class="form-group">
+                    <label for="offerStartDate">Start Date *</label>
+                    <input type="date" id="offerStartDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="offerDuration">Duration *</label>
+                    <input type="text" id="offerDuration" class="form-control" placeholder="e.g., 3 months" required>
+                </div>
+                <div class="form-group">
+                    <label for="offerMessage">Message to Candidate</label>
+                    <textarea id="offerMessage" class="form-control" placeholder="Congratulations! We're excited to offer you..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('makeOfferModal')">Cancel</button>
+                    <button type="submit" class="btn btn-success">Send Offer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== SUCCESS MODAL ==================== -->
+    <div class="modal" id="successModal">
+        <div class="modal-content" style="text-align: center;">
+            <button class="modal-close" onclick="closeModal('successModal')">×</button>
+            <div id="successContent">
+                <!-- Success message will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DEMO DATA ====================
+        let skills = [];
+        let currentApplicant = null;
+
+        const posts = [
+            {
+                id: 1,
+                title: "Full Stack Developer Intern",
+                type: "internship",
+                location: "Remote",
+                duration: "3 months",
+                stipend: "₹25,000/month",
+                skills: ["React", "Node.js", "MongoDB", "JavaScript"],
+                description: "Work on exciting full-stack projects using modern web technologies.",
+                status: "active",
+                applicants: 12,
+                postedDate: "2024-01-10"
+            },
+            {
+                id: 2,
+                title: "Mobile App Development Intern",
+                type: "internship",
+                location: "Hybrid",
+                duration: "4 months",
+                stipend: "₹20,000/month",
+                skills: ["React Native", "JavaScript", "Firebase"],
+                description: "Build cross-platform mobile applications for our clients.",
+                status: "active",
+                applicants: 8,
+                postedDate: "2024-01-15"
+            },
+            {
+                id: 3,
+                title: "Backend Developer Intern",
+                type: "internship",
+                location: "Remote",
+                duration: "3 months",
+                stipend: "₹22,000/month",
+                skills: ["Node.js", "Express", "PostgreSQL", "AWS"],
+                description: "Join our backend team to build robust server-side applications.",
+                status: "pending",
+                applicants: 0,
+                postedDate: "2024-01-20"
+            },
+            {
+                id: 4,
+                title: "UI/UX Design Internship",
+                type: "internship",
+                location: "On-site",
+                duration: "2 months",
+                stipend: "₹18,000/month",
+                skills: ["Figma", "Adobe XD", "UI Design"],
+                description: "Create beautiful user interfaces and enhance user experience.",
+                status: "active",
+                applicants: 6,
+                postedDate: "2024-01-12"
+            }
+        ];
+
+        const applicants = [
+            {
+                id: 1,
+                name: "Arjun Kumar",
+                email: "arjun.kumar@college.edu",
+                department: "Computer Science",
+                year: "3rd Year",
+                gpa: 8.5,
+                skills: ["Python", "React", "JavaScript", "Node.js", "MongoDB"],
+                postId: 1,
+                postTitle: "Full Stack Developer Intern",
+                status: "applied",
+                matchScore: 95,
+                appliedDate: "2024-01-15",
+                resume: "Arjun_Kumar_Resume.pdf",
+                github: "https://github.com/arjunkumar",
+                linkedin: "https://linkedin.com/in/arjunkumar",
+                portfolio: "https://arjunkumar.dev",
+                about: "Passionate full-stack developer with experience in MERN stack. Built 5+ projects including an e-commerce platform and a social media app."
+            },
+            {
+                id: 2,
+                name: "Priya Sharma",
+                email: "priya.sharma@college.edu",
+                department: "Computer Science",
+                year: "Final Year",
+                gpa: 9.2,
+                skills: ["React", "Node.js", "JavaScript", "TypeScript", "GraphQL"],
+                postId: 1,
+                postTitle: "Full Stack Developer Intern",
+                status: "shortlisted",
+                matchScore: 92,
+                appliedDate: "2024-01-16",
+                resume: "Priya_Sharma_Resume.pdf",
+                github: "https://github.com/priyasharma",
+                linkedin: "https://linkedin.com/in/priyasharma",
+                about: "Full-stack developer with strong problem-solving skills. Contributed to open-source projects and led my college's tech club."
+            },
+            {
+                id: 3,
+                name: "Rahul Verma",
+                email: "rahul.verma@college.edu",
+                department: "Computer Science",
+                year: "3rd Year",
+                gpa: 8.8,
+                skills: ["React Native", "JavaScript", "Firebase", "Redux"],
+                postId: 2,
+                postTitle: "Mobile App Development Intern",
+                status: "interview",
+                matchScore: 88,
+                appliedDate: "2024-01-17",
+                resume: "Rahul_Verma_Resume.pdf",
+                github: "https://github.com/rahulverma",
+                about: "Mobile app enthusiast with 3 published apps on Play Store. Experience in building cross-platform applications."
+            },
+            {
+                id: 4,
+                name: "Sneha Patel",
+                email: "sneha.patel@college.edu",
+                department: "Computer Science",
+                year: "Final Year",
+                gpa: 9.0,
+                skills: ["Figma", "Adobe XD", "UI Design", "Sketch", "Prototyping"],
+                postId: 4,
+                postTitle: "UI/UX Design Internship",
+                status: "offered",
+                matchScore: 94,
+                appliedDate: "2024-01-13",
+                resume: "Sneha_Patel_Resume.pdf",
+                portfolio: "https://behance.net/snehapatel",
+                about: "Creative designer passionate about creating intuitive user experiences. Won multiple design competitions and worked on 10+ client projects."
+            },
+            {
+                id: 5,
+                name: "Amit Singh",
+                email: "amit.singh@college.edu",
+                department: "Computer Science",
+                year: "3rd Year",
+                gpa: 7.5,
+                skills: ["React", "JavaScript", "HTML", "CSS"],
+                postId: 1,
+                postTitle: "Full Stack Developer Intern",
+                status: "applied",
+                matchScore: 72,
+                appliedDate: "2024-01-18",
+                resume: "Amit_Singh_Resume.pdf",
+                github: "https://github.com/amitsingh",
+                about: "Frontend developer learning backend technologies. Built several landing pages and personal projects."
+            },
+            {
+                id: 6,
+                name: "Neha Gupta",
+                email: "neha.gupta@college.edu",
+                department: "Electronics",
+                year: "Final Year",
+                gpa: 8.6,
+                skills: ["React Native", "JavaScript", "Java", "Android"],
+                postId: 2,
+                postTitle: "Mobile App Development Intern",
+                status: "shortlisted",
+                matchScore: 85,
+                appliedDate: "2024-01-16",
+                resume: "Neha_Gupta_Resume.pdf",
+                about: "Mobile developer with experience in both native Android and React Native development."
+            }
+        ];
+
+        // ==================== NAVIGATION ====================
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            const showHeader = !['registerScreen', 'loginScreen', 'pendingScreen'].includes(screenId);
+            document.getElementById('mainHeader').style.display = showHeader ? 'block' : 'none';
+        }
+
+        function showRegister() {
+            showScreen('registerScreen');
+        }
+
+        function showLogin() {
+            showScreen('loginScreen');
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const screen = this.getAttribute('data-screen');
+                
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                if (screen === 'dashboard') {
+                    showScreen('dashboardScreen');
+                    loadDashboard();
+                } else if (screen === 'posts') {
+                    showScreen('postsScreen');
+                    loadAllPosts();
+                } else if (screen === 'applicants') {
+                    showScreen('applicantsScreen');
+                    loadApplicants();
+                    populatePostFilter();
+                } else if (screen === 'messages') {
+                    showScreen('messagesScreen');
+                }
+            });
+        });
+
+        // ==================== AUTH ====================
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showScreen('pendingScreen');
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showScreen('dashboardScreen');
+            loadDashboard();
+        });
+
+        function skipToApproved() {
+            showScreen('dashboardScreen');
+            loadDashboard();
+        }
+
+        // ==================== LOAD DASHBOARD ====================
+        function loadDashboard() {
+            loadPosts();
+            loadRecentApplications();
+        }
+
+        function loadPosts() {
+            const grid = document.getElementById('postsGrid');
+            grid.innerHTML = '';
+
+            const activePosts = posts.filter(p => p.status === 'active').slice(0, 3);
+
+            activePosts.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'card post-card';
+                card.innerHTML = `
+                    <div class="post-header">
+                        <div>
+                            <h3>${post.title}</h3>
+                            <span class="badge ${post.status === 'active' ? 'badge-success' : post.status === 'pending' ? 'badge-warning' : 'badge-gray'}">${post.status}</span>
+                        </div>
+                    </div>
+                    <p style="color: var(--gray); margin-bottom: 1rem;">${post.description}</p>
+                    <div class="post-meta">
+                        <span class="meta-item">📍 ${post.location}</span>
+                        <span class="meta-item">⏱️ ${post.duration}</span>
+                        <span class="meta-item">💰 ${post.stipend}</span>
+                        <span class="meta-item">👥 ${post.applicants} applicants</span>
+                    </div>
+                    <div class="skills-list">
+                        ${post.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                `;
+                card.onclick = () => viewApplicantsForPost(post.id);
+                grid.appendChild(card);
+            });
+        }
+
+        function loadAllPosts() {
+            const grid = document.getElementById('allPostsGrid');
+            grid.innerHTML = '';
+
+            posts.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'card post-card';
+                card.innerHTML = `
+                    <div class="post-header">
+                        <div>
+                            <h3>${post.title}</h3>
+                            <span class="badge ${post.status === 'active' ? 'badge-success' : post.status === 'pending' ? 'badge-warning' : 'badge-gray'}">${post.status}</span>
+                        </div>
+                    </div>
+                    <p style="color: var(--gray); margin-bottom: 1rem;">${post.description}</p>
+                    <div class="post-meta">
+                        <span class="meta-item">📍 ${post.location}</span>
+                        <span class="meta-item">⏱️ ${post.duration}</span>
+                        <span class="meta-item">💰 ${post.stipend}</span>
+                        <span class="meta-item">👥 ${post.applicants} applicants</span>
+                    </div>
+                    <div class="skills-list">
+                        ${post.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary btn-sm" onclick="viewApplicantsForPost(${post.id})">View Applicants</button>
+                        <button class="btn btn-secondary btn-sm" onclick="editPost(${post.id})">Edit</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function loadRecentApplications() {
+            const container = document.getElementById('recentApplications');
+            const recent = applicants.slice(0, 5);
+
+            container.innerHTML = recent.map(app => `
+                <div class="applicant-row" onclick="viewApplicant(${app.id})">
+                    <div class="applicant-avatar">${app.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="applicant-info">
+                        <h4>${app.name}</h4>
+                        <p>${app.postTitle}</p>
+                    </div>
+                    <div>
+                        <span class="badge badge-${app.status === 'applied' ? 'primary' : app.status === 'shortlisted' ? 'info' : app.status === 'interview' ? 'warning' : app.status === 'offered' ? 'success' : 'gray'}">${app.status}</span>
+                    </div>
+                    <div>${app.department}</div>
+                    <div><strong>GPA:</strong> ${app.gpa}</div>
+                    <div class="match-score ${app.matchScore >= 85 ? '' : app.matchScore >= 70 ? 'medium' : 'low'}">${app.matchScore}%</div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); viewApplicant(${app.id})">View</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== LOAD APPLICANTS ====================
+        function loadApplicants() {
+            const tbody = document.getElementById('applicantsTableBody');
+            tbody.innerHTML = '';
+
+            applicants.forEach(app => {
+                const row = document.createElement('div');
+                row.className = 'applicant-row';
+                row.innerHTML = `
+                    <div class="applicant-avatar">${app.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="applicant-info">
+                        <h4>${app.name}</h4>
+                        <p>${app.email}</p>
+                    </div>
+                    <div>
+                        <p style="font-weight: 600;">${app.postTitle}</p>
+                        <p style="font-size: 0.85rem; color: var(--gray);">${new Date(app.appliedDate).toLocaleDateString()}</p>
+                    </div>
+                    <div>${app.department}</div>
+                    <div><strong>${app.gpa}</strong></div>
+                    <div class="match-score ${app.matchScore >= 85 ? '' : app.matchScore >= 70 ? 'medium' : 'low'}">${app.matchScore}%</div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); viewApplicant(${app.id})">View</button>
+                        ${app.status === 'applied' ? `<button class="btn btn-success btn-sm" onclick="event.stopPropagation(); shortlistApplicant(${app.id})">Shortlist</button>` : ''}
+                        ${app.status === 'shortlisted' ? `<button class="btn btn-success btn-sm" onclick="event.stopPropagation(); scheduleInterview(${app.id})">Interview</button>` : ''}
+                        ${app.status === 'interview' ? `<button class="btn btn-success btn-sm" onclick="event.stopPropagation(); makeOffer(${app.id})">Offer</button>` : ''}
+                    </div>
+                `;
+                row.onclick = () => viewApplicant(app.id);
+                tbody.appendChild(row);
+            });
+        }
+
+        function populatePostFilter() {
+            const filter = document.getElementById('postFilter');
+            filter.innerHTML = '<option value="all">All Posts</option>';
+            posts.forEach(post => {
+                filter.innerHTML += `<option value="${post.id}">${post.title}</option>`;
+            });
+        }
+
+        function filterApplicants() {
+            const postFilter = document.getElementById('postFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const deptFilter = document.getElementById('deptFilter').value;
+            const searchTerm = document.getElementById('searchApplicant').value.toLowerCase();
+
+            let filtered = applicants;
+
+            if (postFilter !== 'all') {
+                filtered = filtered.filter(a => a.postId == postFilter);
+            }
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(a => a.status === statusFilter);
+            }
+            if (deptFilter !== 'all') {
+                filtered = filtered.filter(a => a.department === deptFilter);
+            }
+            if (searchTerm) {
+                filtered = filtered.filter(a => a.name.toLowerCase().includes(searchTerm));
+            }
+
+            const tbody = document.getElementById('applicantsTableBody');
+            tbody.innerHTML = '';
+
+            filtered.forEach(app => {
+                const row = document.createElement('div');
+                row.className = 'applicant-row';
+                row.innerHTML = `
+                    <div class="applicant-avatar">${app.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="applicant-info">
+                        <h4>${app.name}</h4>
+                        <p>${app.email}</p>
+                    </div>
+                    <div>
+                        <p style="font-weight: 600;">${app.postTitle}</p>
+                        <p style="font-size: 0.85rem; color: var(--gray);">${new Date(app.appliedDate).toLocaleDateString()}</p>
+                    </div>
+                    <div>${app.department}</div>
+                    <div><strong>${app.gpa}</strong></div>
+                    <div class="match-score ${app.matchScore >= 85 ? '' : app.matchScore >= 70 ? 'medium' : 'low'}">${app.matchScore}%</div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); viewApplicant(${app.id})">View</button>
+                        ${app.status === 'applied' ? `<button class="btn btn-success btn-sm" onclick="event.stopPropagation(); shortlistApplicant(${app.id})">Shortlist</button>` : ''}
+                        ${app.status === 'shortlisted' ? `<button class="btn btn-success btn-sm" onclick="event.stopPropagation(); scheduleInterview(${app.id})">Interview</button>` : ''}
+                        ${app.status === 'interview' ? `<button class="btn btn-success btn-sm" onclick="event.stopPropagation(); makeOffer(${app.id})">Offer</button>` : ''}
+                    </div>
+                `;
+                row.onclick = () => viewApplicant(app.id);
+                tbody.appendChild(row);
+            });
+        }
+
+        function viewApplicantsForPost(postId) {
+            document.querySelector('[data-screen="applicants"]').click();
+            setTimeout(() => {
+                document.getElementById('postFilter').value = postId;
+                filterApplicants();
+            }, 100);
+        }
+
+        // ==================== VIEW APPLICANT ====================
+        function viewApplicant(applicantId) {
+            const applicant = applicants.find(a => a.id === applicantId);
+            currentApplicant = applicant;
+
+            const content = document.getElementById('applicantProfileContent');
+            content.innerHTML = `
+                <div class="profile-header-modal">
+                    <div class="profile-avatar-large">${applicant.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="profile-info-modal">
+                        <h2>${applicant.name}</h2>
+                        <p style="color: var(--gray); margin-bottom: 0.5rem;">${applicant.email}</p>
+                        <div style="margin-bottom: 0.5rem;">
+                            <span class="meta-item">🎓 ${applicant.department}</span>
+                            <span class="meta-item">📅 ${applicant.year}</span>
+                            <span class="meta-item">📊 GPA: ${applicant.gpa}</span>
+                        </div>
+                        <div>
+                            <span class="badge badge-${applicant.status === 'applied' ? 'primary' : applicant.status === 'shortlisted' ? 'info' : applicant.status === 'interview' ? 'warning' : applicant.status === 'offered' ? 'success' : 'gray'}">${applicant.status}</span>
+                            <span class="badge badge-success" style="margin-left: 0.5rem;">${applicant.matchScore}% Match</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3>Applied For</h3>
+                    <div style="padding: 1rem; background: var(--bg); border-radius: var(--radius-sm);">
+                        <h4>${applicant.postTitle}</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Applied on ${new Date(applicant.appliedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3>About</h3>
+                    <p style="color: var(--gray); line-height: 1.8;">${applicant.about || 'No description provided.'}</p>
+                </div>
+
+                <div class="info-section">
+                    <h3>Skills</h3>
+                    <div class="skills-list">
+                        ${applicant.skills.map(skill => `<span class="badge badge-primary">${skill}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3>Academic Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Department</div>
+                            <div class="info-value">${applicant.department}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Year</div>
+                            <div class="info-value">${applicant.year}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">GPA</div>
+                            <div class="info-value">${applicant.gpa} / 10.0</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Resume</div>
+                            <div class="info-value">
+                                <a href="#" style="color: var(--primary);" onclick="alert('Download resume: ${applicant.resume}')">📄 Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                ${applicant.github || applicant.linkedin || applicant.portfolio ? `
+                    <div class="info-section">
+                        <h3>Links</h3>
+                        <div class="portfolio-links">
+                            ${applicant.github ? `<a href="${applicant.github}" target="_blank" class="portfolio-link">🔗 GitHub</a>` : ''}
+                            ${applicant.linkedin ? `<a href="${applicant.linkedin}" target="_blank" class="portfolio-link">💼 LinkedIn</a>` : ''}
+                            ${applicant.portfolio ? `<a href="${applicant.portfolio}" target="_blank" class="portfolio-link">🌐 Portfolio</a>` : ''}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div class="modal-actions">
+                    ${applicant.status === 'applied' ? `
+                        <button class="btn btn-danger" onclick="rejectApplicant(${applicant.id})">Reject</button>
+                        <button class="btn btn-success" onclick="shortlistApplicant(${applicant.id})">Shortlist</button>
+                    ` : ''}
+                    ${applicant.status === 'shortlisted' ? `
+                        <button class="btn btn-danger" onclick="rejectApplicant(${applicant.id})">Reject</button>
+                        <button class="btn btn-success" onclick="scheduleInterview(${applicant.id})">Schedule Interview</button>
+                    ` : ''}
+                    ${applicant.status === 'interview' ? `
+                        <button class="btn btn-danger" onclick="rejectApplicant(${applicant.id})">Reject</button>
+                        <button class="btn btn-success" onclick="makeOffer(${applicant.id})">Make Offer</button>
+                    ` : ''}
+                    ${applicant.status === 'offered' ? `
+                        <button class="btn btn-primary" onclick="closeModal('applicantProfileModal')">Close</button>
+                    ` : ''}
+                </div>
+            `;
+
+            document.getElementById('applicantProfileModal').classList.add('active');
+        }
+
+        // ==================== APPLICANT ACTIONS ====================
+        function shortlistApplicant(applicantId) {
+            const applicant = applicants.find(a => a.id === applicantId);
+            applicant.status = 'shortlisted';
+            
+            closeModal('applicantProfileModal');
+            showSuccess('Applicant Shortlisted!', `${applicant.name} has been shortlisted. You can now schedule an interview.`);
+            
+            loadApplicants();
+            loadRecentApplications();
+        }
+
+        function rejectApplicant(applicantId) {
+            if (confirm('Are you sure you want to reject this applicant?')) {
+                const applicant = applicants.find(a => a.id === applicantId);
+                applicant.status = 'rejected';
+                
+                closeModal('applicantProfileModal');
+                showSuccess('Applicant Rejected', `${applicant.name} has been notified of your decision.`);
+                
+                loadApplicants();
+                loadRecentApplications();
+            }
+        }
+
+        function scheduleInterview(applicantId) {
+            currentApplicant = applicants.find(a => a.id === applicantId);
+            closeModal('applicantProfileModal');
+            document.getElementById('scheduleInterviewModal').classList.add('active');
+        }
+
+        function makeOffer(applicantId) {
+            currentApplicant = applicants.find(a => a.id === applicantId);
+            const post = posts.find(p => p.id === currentApplicant.postId);
+            document.getElementById('offerStipend').value = post.stipend;
+            document.getElementById('offerDuration').value = post.duration;
+            
+            closeModal('applicantProfileModal');
+            document.getElementById('makeOfferModal').classList.add('active');
+        }
+
+        // ==================== SCHEDULE INTERVIEW ====================
+        document.getElementById('scheduleInterviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            currentApplicant.status = 'interview';
+            closeModal('scheduleInterviewModal');
+            showSuccess('Interview Scheduled!', `Interview has been scheduled with ${currentApplicant.name}. They will receive a notification.`);
+            
+            loadApplicants();
+            loadRecentApplications();
+        });
+
+        // ==================== MAKE OFFER ====================
+        document.getElementById('makeOfferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            currentApplicant.status = 'offered';
+            closeModal('makeOfferModal');
+            showSuccess('Offer Sent!', `Your offer has been sent to ${currentApplicant.name}. They can accept or decline through the portal.`);
+            
+            loadApplicants();
+            loadRecentApplications();
+        });
+
+        // ==================== CREATE POST ====================
+        function showCreatePost() {
+            document.getElementById('createPostModal').classList.add('active');
+        }
+
+        // Skills tag input
+        document.getElementById('skillInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const skill = this.value.trim();
+                if (skill && !skills.includes(skill)) {
+                    skills.push(skill);
+                    updateSkillsTags();
+                    this.value = '';
+                }
+            }
+        });
+
+        function updateSkillsTags() {
+            const wrapper = document.getElementById('skillsTagsWrapper');
+            const input = document.getElementById('skillInput');
+            
+            wrapper.innerHTML = '';
+            skills.forEach(skill => {
+                const tag = document.createElement('span');
+                tag.className = 'tag-item';
+                tag.innerHTML = `${skill} <span class="tag-remove" onclick="removeSkill('${skill}')">×</span>`;
+                wrapper.appendChild(tag);
+            });
+            wrapper.appendChild(input);
+        }
+
+        function removeSkill(skill) {
+            skills = skills.filter(s => s !== skill);
+            updateSkillsTags();
+        }
+
+        document.getElementById('createPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (skills.length === 0) {
+                alert('Please add at least one required skill');
+                return;
+            }
+
+            const newPost = {
+                id: posts.length + 1,
+                title: document.getElementById('postTitle').value,
+                type: document.getElementById('postType').value,
+                location: document.getElementById('postLocation').value,
+                duration: document.getElementById('postDuration').value,
+                stipend: document.getElementById('postStipend').value,
+                skills: [...skills],
+                description: document.getElementById('postDescription').value,
+                status: 'pending',
+                applicants: 0,
+                postedDate: new Date().toISOString().split('T')[0]
+            };
+
+            posts.unshift(newPost);
+            
+            closeModal('createPostModal');
+            showSuccess('Post Submitted!', 'Your opportunity has been submitted for admin approval. It will be visible to students once approved.');
+            
+            // Reset form
+            this.reset();
+            skills = [];
+            updateSkillsTags();
+            
+            loadAllPosts();
+            loadPosts();
+        });
+
+        function editPost(postId) {
+            alert('Edit post functionality - This would open the create post modal with pre-filled data for post ID: ' + postId);
+        }
+
+        // ==================== MODALS ====================
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        function showSuccess(title, message) {
+            const content = document.getElementById('successContent');
+            content.innerHTML = `
+                <div class="success-checkmark">✓</div>
+                <h2 style="margin-bottom: 0.5rem;">${title}</h2>
+                <p style="color: var(--gray); margin-bottom: 1.5rem;">${message}</p>
+                <button class="btn btn-primary" onclick="closeModal('successModal')">Okay</button>
+            `;
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        // ==================== INITIALIZATION ====================
+        window.addEventListener('DOMContentLoaded', function() {
+            // Initialize skills tag input
+            updateSkillsTags();
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternHub - For Students, By Students</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           CUSTOM CSS VARIABLES & BASE STYLES
+        ======================================== */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0a0e27;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* ========================================
+           ANIMATED GRADIENT BACKGROUND
+        ======================================== */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #0a0e27, #1a1a3e, #2d1b69, #1a1a3e, #0a0e27);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* ========================================
+           FLOATING PARTICLES ANIMATION
+        ======================================== */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(102, 126, 234, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+            animation: float 20s infinite;
+        }
+        
+        .particle:nth-child(odd) {
+            background: rgba(240, 147, 251, 0.6);
+            box-shadow: 0 0 10px rgba(240, 147, 251, 0.8);
+        }
+        
+        .particle:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-duration: 15s; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-duration: 18s; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-duration: 14s; animation-delay: 1s; }
+        .particle:nth-child(5) { left: 50%; animation-duration: 16s; animation-delay: 3s; }
+        .particle:nth-child(6) { left: 60%; animation-duration: 13s; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-duration: 17s; animation-delay: 2s; }
+        .particle:nth-child(8) { left: 80%; animation-duration: 19s; animation-delay: 4s; }
+        .particle:nth-child(9) { left: 90%; animation-duration: 11s; animation-delay: 1s; }
+        .particle:nth-child(10) { left: 95%; animation-duration: 20s; animation-delay: 3s; }
+        .particle:nth-child(11) { left: 15%; animation-duration: 14s; animation-delay: 6s; }
+        .particle:nth-child(12) { left: 25%; animation-duration: 16s; animation-delay: 2s; }
+        .particle:nth-child(13) { left: 35%; animation-duration: 13s; animation-delay: 4s; }
+        .particle:nth-child(14) { left: 45%; animation-duration: 18s; animation-delay: 1s; }
+        .particle:nth-child(15) { left: 55%; animation-duration: 15s; animation-delay: 5s; }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* ========================================
+           GRADIENT TEXT ANIMATION
+        ======================================== */
+        .gradient-text {
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientText 4s linear infinite;
+        }
+        
+        @keyframes gradientText {
+            to { background-position: 200% center; }
+        }
+        
+        /* ========================================
+           GLASSMORPHISM CARDS
+        ======================================== */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .glass-card:hover::before {
+            left: 100%;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        
+        /* ========================================
+           GLOWING BUTTON EFFECTS
+        ======================================== */
+        .glow-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .glow-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .glow-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .glow-btn:hover {
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.8);
+            transform: translateY(-2px);
+        }
+        
+        /* ========================================
+           NAVBAR STYLES
+        ======================================== */
+        .navbar {
+            backdrop-filter: blur(20px);
+            background: rgba(10, 14, 39, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(10, 14, 39, 0.95);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        
+        /* ========================================
+           LOGO ANIMATION
+        ======================================== */
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes logoGlow {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 0px transparent); }
+            50% { filter: brightness(1.5) drop-shadow(0 0 10px rgba(102, 126, 234, 0.5)); }
+        }
+        
+        /* ========================================
+           TAGLINE BADGE
+        ======================================== */
+        .tagline-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 0 8px rgba(102, 126, 234, 0);
+                transform: scale(1.05);
+            }
+        }
+        
+        /* ========================================
+           FLOATING ACTION BUTTONS
+        ======================================== */
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
+            }
+        }
+        
+        /* ========================================
+           FEATURE ICON STYLES
+        ======================================== */
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.8rem;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .feature-icon.icon-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .feature-icon.icon-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .feature-icon.icon-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .feature-icon.icon-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .feature-icon.icon-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        
+        .glass-card:hover .feature-icon {
+            transform: rotateY(360deg) scale(1.1);
+        }
+        
+        /* ========================================
+           SCROLL INDICATOR
+        ======================================== */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-15px); }
+            60% { transform: translateX(-50%) translateY(-8px); }
+        }
+        
+        /* ========================================
+           TESTIMONIAL CARD
+        ======================================== */
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            border-left: 3px solid #667eea;
+        }
+        
+        /* ========================================
+           FOOTER NEON GLOW
+        ======================================== */
+        .neon-text {
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.8),
+                         0 0 20px rgba(102, 126, 234, 0.6),
+                         0 0 30px rgba(102, 126, 234, 0.4);
+            animation: neonFlicker 4s ease-in-out infinite;
+        }
+        
+        @keyframes neonFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* ========================================
+           MOBILE MENU
+        ======================================== */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        /* ========================================
+           SECTION DIVIDER
+        ======================================== */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.5), transparent);
+            margin: 0 auto;
+        }
+        
+        /* ========================================
+           TYPEWRITER EFFECT
+        ======================================== */
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid rgba(102, 126, 234, 0.8);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+            display: inline-block;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: rgba(102, 126, 234, 0.8); }
+        }
+        
+        /* ========================================
+           REVEAL ANIMATION
+        ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* ========================================
+           NUMBER COUNTER GLOW
+        ======================================== */
+        .counter-glow {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        /* ========================================
+           WAVE DIVIDER
+        ======================================== */
+        .wave-divider {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(180deg, transparent, rgba(102, 126, 234, 0.05));
+        }
+        
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+        }
+        
+        /* ========================================
+           RESPONSIVE UTILITIES
+        ======================================== */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.25rem !important; line-height: 1.2; }
+            .section-title { font-size: 2rem !important; }
+            .floating-btn { bottom: 15px; right: 15px; }
+            .particle { width: 2px; height: 2px; }
+        }
+        
+        /* ========================================
+           CUSTOM SCROLLBAR
+        ======================================== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0e27;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+        }
+        
+        /* ========================================
+           COMPACT SPACING
+        ======================================== */
+        .compact-section {
+            padding: 3rem 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .compact-section {
+                padding: 4rem 1.5rem;
+            }
+        }
+        
+        /* ========================================
+           PARALLAX ELEMENTS
+        ======================================== */
+        .parallax-element {
+            transition: transform 0.3s ease-out;
+        }
+        
+        /* ========================================
+           SHINE EFFECT
+        ======================================== */
+        .shine {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+    </style>
+</head>
+
+<body class="gradient-bg">
+    
+    <!-- ========================================
+         NAVIGATION BAR
+    ======================================== -->
+    <nav class="navbar fixed w-full top-0 z-50 px-4 md:px-6 py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="logo flex items-center gap-2">
+                <i class="fas fa-rocket"></i>
+                <span class="hidden sm:inline">InternHub</span>
+                <span class="sm:hidden">IH</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-6 items-center text-sm">
+                <a href="#home" class="nav-link text-gray-300 hover:text-white transition-all hover:scale-110">Home</a>
+                <a href="#features" class="nav-link text-gray-300 hover:text-white transition-all hover:scale-110">Features</a>
+                <a href="#about" class="nav-link text-gray-300 hover:text-white transition-all hover:scale-110">About</a>
+                <a href="#testimonials" class="nav-link text-gray-300 hover:text-white transition-all hover:scale-110">Reviews</a>
+                <a href="#contact" class="nav-link text-gray-300 hover:text-white transition-all hover:scale-110">Contact</a>
+            </div>
+            
+            <!-- Login Buttons -->
+            <div class="hidden md:flex space-x-3">
+                <a href="student.html" class="px-4 py-2 rounded-full border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white transition-all text-sm hover:scale-105">
+                    <i class="fas fa-user-graduate mr-1"></i>Student
+                </a>
+                <a href="company.html" class="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-lg transition-all glow-btn text-sm hover:scale-105">
+                    <i class="fas fa-building mr-1"></i>Company
+                </a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white text-xl" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu md:hidden fixed top-0 right-0 w-72 h-full bg-gray-900/95 backdrop-blur-xl shadow-2xl p-6 z-50 border-l border-purple-500/30" id="mobileMenu">
+            <button class="text-white text-xl mb-6 float-right hover:rotate-90 transition-transform duration-300" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="clear-both"></div>
+            <div class="flex flex-col space-y-4 mt-6">
+                <a href="#home" class="text-gray-300 hover:text-white transition-all hover:pl-2 py-2 border-b border-gray-800">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="#features" class="text-gray-300 hover:text-white transition-all hover:pl-2 py-2 border-b border-gray-800">
+                    <i class="fas fa-star mr-2"></i>Features
+                </a>
+                <a href="#about" class="text-gray-300 hover:text-white transition-all hover:pl-2 py-2 border-b border-gray-800">
+                    <i class="fas fa-info-circle mr-2"></i>About
+                </a>
+                <a href="#testimonials" class="text-gray-300 hover:text-white transition-all hover:pl-2 py-2 border-b border-gray-800">
+                    <i class="fas fa-comment mr-2"></i>Reviews
+                </a>
+                <a href="#contact" class="text-gray-300 hover:text-white transition-all hover:pl-2 py-2 border-b border-gray-800">
+                    <i class="fas fa-envelope mr-2"></i>Contact
+                </a>
+                <div class="pt-4 space-y-3">
+                    <a href="student.html" class="block px-4 py-3 rounded-full border border-purple-500 text-purple-400 text-center hover:bg-purple-500 hover:text-white transition-all">
+                        <i class="fas fa-user-graduate mr-2"></i>Student Login
+                    </a>
+                    <a href="company.html" class="block px-4 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center hover:shadow-lg transition-all">
+                        <i class="fas fa-building mr-2"></i>Company Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- ========================================
+         HERO SECTION
+    ======================================== -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+        <!-- Animated Particles Background -->
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="relative z-10 text-center px-4 max-w-6xl mx-auto">
+            <!-- Tagline Badge -->
+            <div class="mb-6 reveal" data-delay="100">
+                <span class="tagline-badge">
+                    <i class="fas fa-users mr-2"></i>FOR STUDENTS, BY STUDENTS
+                </span>
+            </div>
+            
+            <h1 class="hero-title text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight reveal" data-delay="200">
+                Empowering <span class="gradient-text">Students</span>.<br>
+                Connecting <span class="gradient-text">Companies</span>.
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-300 mb-3 max-w-3xl mx-auto reveal" data-delay="300">
+                Your one-stop portal for internships, microjobs, and professional growth.
+            </p>
+            
+            <p class="text-sm md:text-base text-gray-400 mb-8 max-w-2xl mx-auto reveal" data-delay="400">
+                Join thousands of students discovering verified opportunities, earning through microjobs, learning from industry experts, and building meaningful connections in their domain.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8 reveal" data-delay="500">
+                <a href="#features" class="w-full sm:w-auto px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:shadow-2xl transition-all glow-btn shine">
+                    Get Started <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+                <a href="#about" class="w-full sm:w-auto px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-white hover:text-purple-900 transition-all">
+                    Learn More <i class="fas fa-info-circle ml-2"></i>
+                </a>
+            </div>
+            
+            <!-- Stats Counter -->
+            <div class="grid grid-cols-3 gap-4 md:gap-8 max-w-3xl mx-auto reveal" data-delay="600">
+                <div class="stat-item glass-card p-4 rounded-2xl">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text counter counter-glow" data-target="500">0</div>
+                    <div class="text-gray-400 mt-1 text-xs md:text-sm">Companies</div>
+                </div>
+                <div class="stat-item glass-card p-4 rounded-2xl">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text counter counter-glow" data-target="10000">0</div>
+                    <div class="text-gray-400 mt-1 text-xs md:text-sm">Students</div>
+                </div>
+                <div class="stat-item glass-card p-4 rounded-2xl">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text counter counter-glow" data-target="2500">0</div>
+                    <div class="text-gray-400 mt-1 text-xs md:text-sm">Internships</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator hidden md:block">
+            <i class="fas fa-chevron-down text-white text-xl opacity-70"></i>
+        </div>
+    </section>
+    
+    <!-- Wave Divider -->
+    <div class="section-divider max-w-4xl"></div>
+    
+    <!-- ========================================
+         FEATURES SECTION
+    ======================================== -->
+    <section id="features" class="relative compact-section">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-10">
+                <div class="inline-block mb-3">
+                    <span class="text-purple-400 font-semibold text-sm tracking-wider uppercase">
+                        <i class="fas fa-sparkles mr-2"></i>Our Features
+                    </span>
+                </div>
+                <h2 class="section-title text-3xl md:text-5xl font-bold mb-3">
+                    Why Choose <span class="gradient-text">InternHub</span>?
+                </h2>
+                <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
+                    Discover powerful features designed to accelerate your career journey and connect you with the right opportunities.
+                </p>
+            </div>
+            
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                
+                <!-- Feature 1: Verified Companies -->
+                <div class="glass-card p-6 feature-card reveal">
+                    <div class="feature-icon icon-1 mb-4">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Verified Companies</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Work with only trusted and authentic recruiters. Every company is thoroughly vetted to ensure legitimacy and safety. Say goodbye to fake job postings and hello to genuine opportunities.
+                    </p>
+                </div>
+                
+                <!-- Feature 2: Student Chatroom -->
+                <div class="glass-card p-6 feature-card reveal">
+                    <div class="feature-icon icon-2 mb-4">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Student Chatroom</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Connect with peers from your domain. Share experiences, collaborate on projects, and build your network. Domain-specific rooms ensure relevant connections and discussions.
+                    </p>
+                </div>
+                
+                <!-- Feature 3: Microjobs -->
+                <div class="glass-card p-6 feature-card reveal">
+                    <div class="feature-icon icon-3 mb-4">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Microjobs</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Quick paid tasks to gain real-world experience. Build your portfolio while earning money on the side. Perfect for students looking to apply their skills practically.
+                    </p>
+                </div>
+                
+                <!-- Feature 4: Expert Lectures -->
+                <div class="glass-card p-6 feature-card reveal">
+                    <div class="feature-icon icon-4 mb-4">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Expert Lectures</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Access live and recorded learning sessions by industry professionals. Stay updated with the latest trends, tools, and technologies. Learn from those who are already succeeding.
+                    </p>
+                </div>
+                
+                <!-- Feature 5: Alumni Talks -->
+                <div class="glass-card p-6 feature-card reveal">
+                    <div class="feature-icon icon-5 mb-4">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Alumni Talks</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Real-world insights and success stories from alumni who've walked the path before you. Get inspired, learn from their mistakes, and accelerate your journey.
+                    </p>
+                </div>
+                
+                <!-- Feature 6: Career Support -->
+                <div class="glass-card p-6 feature-card reveal">
+                    <div class="feature-icon icon-1 mb-4">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Career Support</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Resume reviews, interview prep, and career guidance. We're with you every step of your professional journey. Get personalized feedback and mentorship.
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider max-w-4xl"></div>
+    
+    <!-- ========================================
+         ABOUT SECTION
+    ======================================== -->
+    <section id="about" class="relative compact-section">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                
+                <!-- Left: Content -->
+                <div class="order-2 lg:order-1">
+                    <div class="inline-block mb-3">
+                        <span class="text-purple-400 font-semibold text-sm tracking-wider uppercase">
+                            <i class="fas fa-info-circle mr-2"></i>About Us
+                        </span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 reveal">
+                        Bridging the Gap Between <span class="gradient-text">Talent & Opportunity</span>
+                    </h2>
+                    <p class="text-base text-gray-300 mb-3 reveal leading-relaxed">
+                        InternHub is more than just an internship portal. We're a comprehensive ecosystem designed to empower students and connect them with the right opportunities at the right time.
+                    </p>
+                    <p class="text-base text-gray-300 mb-3 reveal leading-relaxed">
+                        Built by students who understand the struggle of finding genuine internships, we created a platform that prioritizes authenticity, learning, and community building.
+                    </p>
+                    <p class="text-base text-gray-300 mb-4 reveal leading-relaxed">
+                        For companies, we offer access to a pool of talented, motivated students ready to contribute and grow. Our verification system ensures quality and trust on both sides of the equation.
+                    </p>
+                    
+                    <!-- Benefits List -->
+                    <div class="space-y-3 reveal">
+                        <div class="flex items-start gap-3">
+                            <div class="w-7 h-7 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-0.5">100% Verified Opportunities</h4>
+                                <p class="text-gray-400 text-sm">Every listing is manually reviewed and verified</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3">
+                            <div class="w-7 h-7 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-0.5">Community-Driven Learning</h4>
+                                <p class="text-gray-400 text-sm">Learn from peers, experts, and alumni</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3">
+                            <div class="w-7 h-7 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-0.5">Earn While You Learn</h4>
+                                <p class="text-gray-400 text-sm">Microjobs and paid internships available</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right: Image/Illustration -->
+                <div class="relative order-1 lg:order-2 reveal">
+                    <div class="glass-card p-6 rounded-3xl">
+                        <div class="aspect-square bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center relative overflow-hidden">
+                            <i class="fas fa-handshake text-7xl md:text-9xl text-purple-400 opacity-40 parallax-element"></i>
+                            <div class="absolute top-4 right-4 w-20 h-20 bg-purple-500 rounded-full opacity-20 blur-2xl animate-pulse"></div>
+                            <div class="absolute bottom-4 left-4 w-24 h-24 bg-pink-500 rounded-full opacity-20 blur-2xl animate-pulse" style="animation-delay: 1s;"></div>
+                        </div>
+                    </div>
+                    <!-- Floating Stats -->
+                    <div class="absolute -top-4 -left-4 glass-card p-3 rounded-xl hidden md:block animate-pulse">
+                        <div class="flex items-center gap-2">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center">
+                                <i class="fas fa-chart-line text-white"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">Success Rate</div>
+                                <div class="text-lg font-bold">95%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 glass-card p-3 rounded-xl hidden md:block animate-pulse" style="animation-delay: 0.5s;">
+                        <div class="flex items-center gap-2">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center">
+                                <i class="fas fa-trophy text-white"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">Avg. Rating</div>
+                                <div class="text-lg font-bold">4.8/5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider max-w-4xl"></div>
+    
+    <!-- ========================================
+         HOW IT WORKS SECTION
+    ======================================== -->
+    <section class="relative compact-section">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10">
+                <div class="inline-block mb-3">
+                    <span class="text-purple-400 font-semibold text-sm tracking-wider uppercase">
+                        <i class="fas fa-cogs mr-2"></i>Simple Process
+                    </span>
+                </div>
+                <h2 class="section-title text-3xl md:text-5xl font-bold mb-3">
+                    How <span class="gradient-text">It Works</span>
+                </h2>
+                <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
+                    Get started in just 3 simple steps
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Step 1 -->
+                <div class="glass-card p-6 text-center reveal relative">
+                    <div class="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center font-bold text-xl">
+                        1
+                    </div>
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-3xl">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Sign Up</h3>
+                    <p class="text-gray-400 text-sm">
+                        Create your free account as a student or company in under 2 minutes
+                    </p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="glass-card p-6 text-center reveal relative">
+                    <div class="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center font-bold text-xl">
+                        2
+                    </div>
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-3xl">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Explore</h3>
+                    <p class="text-gray-400 text-sm">
+                        Browse verified internships, microjobs, and learning resources tailored to you
+                    </p>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="glass-card p-6 text-center reveal relative">
+                    <div class="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center font-bold text-xl">
+                        3
+                    </div>
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-3xl">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Grow</h3>
+                    <p class="text-gray-400 text-sm">
+                        Apply, learn, earn, and connect with your community to accelerate your career
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider max-w-4xl"></div>
+    
+    <!-- ========================================
+         TESTIMONIALS SECTION
+    ======================================== -->
+    <section id="testimonials" class="relative compact-section">
+        <div class="max-w-6xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-10">
+                <div class="inline-block mb-3">
+                    <span class="text-purple-400 font-semibold text-sm tracking-wider uppercase">
+                        <i class="fas fa-quote-left mr-2"></i>Testimonials
+                    </span>
+                </div>
+                <h2 class="section-title text-3xl md:text-5xl font-bold mb-3">
+                    What Our <span class="gradient-text">Community</span> Says
+                </h2>
+                <p class="text-base md:text-lg text-gray-400">
+                    Real stories from students and companies
+                </p>
+            </div>
+            
+            <!-- Testimonials Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card glass-card p-6 rounded-2xl reveal">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg">
+                            R
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-sm">Rahul Sharma</h4>
+                            <p class="text-xs text-gray-400">CS Student, IIT Delhi</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-3">
+                        "InternHub helped me land my dream internship at a Fortune 500 company. The verified companies feature gave me confidence that I wasn't wasting time on fake listings."
+                    </p>
+                    <div class="flex text-yellow-400 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card glass-card p-6 rounded-2xl reveal">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg">
+                            P
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-sm">Priya Patel</h4>
+                            <p class="text-xs text-gray-400">HR Manager, TechCorp</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-3">
+                        "We've hired 15+ interns through InternHub this year. The quality of candidates and the ease of posting opportunities is unmatched. Highly recommended!"
+                    </p>
+                    <div class="flex text-yellow-400 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card glass-card p-6 rounded-2xl reveal">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-white font-bold text-lg">
+                            A
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-sm">Aisha Khan</h4>
+                            <p class="text-xs text-gray-400">Design Student, NID</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-3">
+                        "The student chatroom is a game-changer! I've made so many connections and even found a co-founder for my startup through the platform."
+                    </p>
+                    <div class="flex text-yellow-400 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 4 -->
+                <div class="testimonial-card glass-card p-6 rounded-2xl reveal">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center text-white font-bold text-lg">
+                            V
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-sm">Vikram Singh</h4>
+                            <p class="text-xs text-gray-400">MBA Student, IIM</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-3">
+                        "The microjobs feature helped me earn while learning. I've completed over 20 tasks and built a solid portfolio. Plus, the expert lectures are invaluable!"
+                    </p>
+                    <div class="flex text-yellow-400 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 5 -->
+                <div class="testimonial-card glass-card p-6 rounded-2xl reveal">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-red-500 flex items-center justify-center text-white font-bold text-lg">
+                            S
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-sm">Sneha Reddy</h4>
+                            <p class="text-xs text-gray-400">Startup Founder</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-3">
+                        "As a startup, finding the right interns was challenging. InternHub made it easy with pre-verified students who are genuinely passionate and skilled."
+                    </p>
+                    <div class="flex text-yellow-400 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 6 -->
+                <div class="testimonial-card glass-card p-6 rounded-2xl reveal">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
+                            M
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-sm">Mohit Gupta</h4>
+                            <p class="text-xs text-gray-400">ECE Student, NIT</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-3">
+                        "The alumni talks inspired me to pursue my goals fearlessly. Hearing real success stories from people who were once in my shoes was incredibly motivating."
+                    </p>
+                    <div class="flex text-yellow-400 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Inspirational Quote -->
+            <div class="mt-10 text-center reveal">
+                <blockquote class="text-xl md:text-2xl font-light italic text-gray-300 max-w-3xl mx-auto">
+                    "The future belongs to those who believe in the beauty of their dreams."
+                    <footer class="text-base text-purple-400 mt-3">— Eleanor Roosevelt</footer>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider max-w-4xl"></div>
+    
+    <!-- ========================================
+         CALL TO ACTION SECTION
+    ======================================== -->
+    <section class="relative compact-section">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden reveal shine">
+                <!-- Background Gradient -->
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 -z-10"></div>
+                
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">
+                    Ready to Start Your Journey?
+                </h2>
+                <p class="text-base md:text-xl text-gray-300 mb-6">
+                    Join thousands of students and companies already growing with InternHub
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="student.html" class="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:shadow-2xl transition-all glow-btn">
+                        <i class="fas fa-user-graduate mr-2"></i>Join as Student
+                    </a>
+                    <a href="company.html" class="px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-white hover:text-purple-900 transition-all">
+                        <i class="fas fa-building mr-2"></i>Join as Company
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider max-w-4xl"></div>
+    
+    <!-- ========================================
+         FOOTER
+    ======================================== -->
+    <footer id="contact" class="relative border-t border-gray-800/50 py-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <!-- Company Info -->
+                <div>
+                    <div class="logo text-xl mb-3">
+                        <i class="fas fa-rocket mr-2"></i>InternHub
+                    </div>
+                    <p class="text-gray-400 mb-3 text-sm leading-relaxed">
+                        Empowering the next generation of professionals through verified opportunities and community-driven learning.
+                    </p>
+                    <!-- Social Icons -->
+                    <div class="flex gap-3">
+                        <a href="#" class="w-9 h-9 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-all">
+                            <i class="fab fa-linkedin-in text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-all">
+                            <i class="fab fa-instagram text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-all">
+                            <i class="fab fa-twitter text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-all">
+                            <i class="fas fa-envelope text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-semibold mb-3 text-sm">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Home</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Features</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">About</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Reviews</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- For Students -->
+                <div>
+                    <h3 class="font-semibold mb-3 text-sm">For Students</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Find Internships</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Microjobs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Expert Lectures</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Student Chatroom</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Alumni Talks</a></li>
+                    </ul>
+                </div>
+                
+                <!-- For Companies -->
+                <div>
+                    <h3 class="font-semibold mb-3 text-sm">For Companies</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Post Internship</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Find Talent</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Enterprise</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-all text-sm hover:pl-2 inline-block">Support</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <!-- Bottom Footer -->
+            <div class="border-t border-gray-800/50 pt-6 text-center">
+                <p class="text-gray-400 text-sm mb-2">
+                    &copy; <span id="year">2024</span> InternHub. All rights reserved.
+                </p>
+                <p class="text-xs text-gray-500">
+                    Made with <i class="fas fa-heart text-red-500 animate-pulse"></i> by <span class="neon-text font-semibold">Cybersadhna</span>
+                </p>
+                <p class="text-xs text-purple-400 mt-2 font-semibold tracking-wider">
+                    FOR STUDENTS, BY STUDENTS
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- ========================================
+         FLOATING ACTION BUTTON
+    ======================================== -->
+    <div class="floating-btn">
+        <a href="#home" class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-lg md:text-xl shadow-2xl hover:scale-110 transition-all">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    </div>
+    
+    <!-- ========================================
+         JAVASCRIPT FOR INTERACTIONS & ANIMATIONS
+    ======================================== -->
+    <script>
+        // ====================================
+        // GSAP ANIMATIONS
+        // ====================================
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // ====================================
+        // NAVBAR SCROLL EFFECT
+        // ====================================
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            const currentScroll = window.scrollY;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+        
+        // ====================================
+        // REVEAL ANIMATIONS ON SCROLL
+        // ====================================
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach((element, index) => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 100;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    const delay = element.dataset.delay || index * 100;
+                    setTimeout(() => {
+                        element.classList.add('active');
+                    }, delay);
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+        
+        // ====================================
+        // HERO SECTION ANIMATIONS
+        // ====================================
+        gsap.from('.hero-title', {
+            opacity: 0,
+            y: 60,
+            duration: 1.2,
+            delay: 0.3,
+            ease: 'power3.out'
+        });
+        
+        // ====================================
+        // STATS COUNTER ANIMATION
+        // ====================================
+        const counters = document.querySelectorAll('.counter');
+        let counterStarted = false;
+        
+        const startCounter = () => {
+            if (counterStarted) return;
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target + '+';
+                    }
+                };
+                
+                updateCounter();
+            });
+            
+            counterStarted = true;
+        };
+        
+        // Start counter when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startCounter();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        const statsSection = document.querySelector('.stat-item');
+        if (statsSection) statsObserver.observe(statsSection);
+        
+        // ====================================
+        // FEATURE CARDS STAGGER ANIMATION
+        // ====================================
+        gsap.from('.feature-card', {
+            scrollTrigger: {
+                trigger: '#features',
+                start: 'top 70%',
+                toggleActions: 'play none none none'
+            },
+            opacity: 0,
+            y: 60,
+            stagger: 0.15,
+            duration: 0.8,
+            ease: 'power3.out'
+        });
+        
+        // ====================================
+        // PARALLAX EFFECT
+        // ====================================
+        window.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            
+            document.querySelectorAll('.parallax-element').forEach((element) => {
+                element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+        
+        // ====================================
+        // MOBILE MENU FUNCTIONALITY
+        // ====================================
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+        
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+        
+        // ====================================
+        // SMOOTH SCROLLING FOR ANCHOR LINKS
+        // ====================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // ====================================
+        // PARTICLE MOUSE INTERACTION
+        // ====================================
+        const particles = document.querySelectorAll('.particle');
+        window.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            particles.forEach((particle, index) => {
+                const rect = particle.getBoundingClientRect();
+                const particleX = rect.left + rect.width / 2;
+                const particleY = rect.top + rect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(mouseX - particleX, 2) + Math.pow(mouseY - particleY, 2)
+                );
+                
+                if (distance < 200) {
+                    const angle = Math.atan2(mouseY - particleY, mouseX - particleX);
+                    const force = (200 - distance) / 10;
+                    const moveX = Math.cos(angle) * force;
+                    const moveY = Math.sin(angle) * force;
+                    
+                    particle.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
+                } else {
+                    particle.style.transform = '';
+                }
+            });
+        });
+        
+        // ====================================
+        // INTERSECTION OBSERVER FOR ANIMATIONS
+        // ====================================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // ====================================
+        // DYNAMIC YEAR IN FOOTER
+        // ====================================
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // ====================================
+        // PAGE LOAD ANIMATION
+        // ====================================
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // ====================================
+        // BUTTON RIPPLE EFFECT
+        // ====================================
+        document.querySelectorAll('.glow-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                    position: absolute;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: 0;
+                    height: 0;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.5);
+                    transform: translate(-50%, -50%);
+                    animation: ripple 0.6s ease-out;
+                `;
+                
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+        
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    width: 300px;
+                    height: 300px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // ====================================
+        // SCROLL PROGRESS INDICATOR
+        // ====================================
+        const createScrollProgress = () => {
+            const progressBar = document.createElement('div');
+            progressBar.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+                z-index: 9999;
+                transition: width 0.1s ease;
+            `;
+            document.body.appendChild(progressBar);
+            
+            window.addEventListener('scroll', () => {
+                const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                progressBar.style.width = scrollPercentage + '%';
+            });
+        };
+        
+        createScrollProgress();
+        
+        // ====================================
+        // ENHANCE HOVER EFFECTS
+        // ====================================
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', function(e) {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function(e) {
+                this.style.transform = '';
+            });
+            
+            card.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                this.style.setProperty('--mouse-x', x + 'px');
+                this.style.setProperty('--mouse-y', y + 'px');
+            });
+        });
+    </script>
+    
+</body>
+</html>
